@@ -942,6 +942,54 @@ header .hdr-call:hover::after,#zapis .flow-main:hover::after,.svc-btn:hover::aft
 }
 </style>
 
+
+<style id="beauty-lab-strong-parallax-2026-10-27">
+/* Stronger REAL scroll parallax for the supplied hair photo. Keep the pistachio overlay static. */
+.hero { position:relative!important; overflow:hidden!important; }
+.hero .hero-px {
+  display:block!important;
+  position:absolute!important;
+  left:0!important;
+  width:100%!important;
+  top:calc(-1 * var(--pd,0px))!important;
+  height:calc(100% + var(--pd,0px))!important;
+  z-index:0!important;
+  background-repeat:no-repeat!important;
+  pointer-events:none!important;
+  backface-visibility:hidden;
+  will-change:transform;
+}
+.hero::before {
+  z-index:1!important;
+  background-image:
+    linear-gradient(90deg, rgba(39,47,30,.79) 0%, rgba(55,66,41,.61) 53%, rgba(72,84,54,.39) 100%),
+    linear-gradient(0deg, rgba(54,65,40,.28), rgba(175,186,147,.12)),
+    repeating-linear-gradient(135deg,rgba(255,255,255,.025) 0 1px,transparent 1px 42px) !important;
+  background-position:center,center,center!important;
+  background-size:cover,cover,auto!important;
+  background-repeat:no-repeat,no-repeat,repeat!important;
+  animation:none!important;
+  transform:none!important;
+}
+.hero .wrap { position:relative!important; z-index:2!important; }
+.hero .hero-mark { z-index:3!important; }
+@media(max-width:760px) {
+  .hero::before {
+    background-image:
+      linear-gradient(90deg, rgba(39,47,30,.88) 0%, rgba(55,66,41,.77) 55%, rgba(72,84,54,.66) 100%),
+      linear-gradient(0deg, rgba(54,65,40,.31), rgba(175,186,147,.10)),
+      repeating-linear-gradient(135deg,rgba(255,255,255,.025) 0 1px,transparent 1px 42px) !important;
+    background-position:center,center,center!important;
+    background-size:cover,cover,auto!important;
+    background-repeat:no-repeat,no-repeat,repeat!important;
+  }
+  .hero .hero-mark { z-index:3!important; }
+}
+@media(prefers-reduced-motion:reduce) {
+  .hero .hero-px { transform:translate3d(0,0,0)!important; will-change:auto!important; }
+}
+</style>
+
 </head>
 <body>
 <div id="site-loader" role="status" aria-label="Загрузка сайта">
@@ -1334,7 +1382,12 @@ header .hdr-call:hover::after,#zapis .flow-main:hover::after,.svc-btn:hover::aft
   var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var iw=0,ih=0,Pd=0,L=1,docTop=0,lastT=-1,ticking=false,tries=0;
   function photo(){
-    var v=hero.style.getPropertyValue('--hero-project-photo')||getComputedStyle(document.documentElement).getPropertyValue('--hero-project-photo')||'';
+    /* The current Beauty Lab photo is stored in --bl-hair-photo on .hero.
+       Keep the old --hero-project-photo option as a fallback for compatibility. */
+    var v=hero.style.getPropertyValue('--hero-project-photo')||'';
+    if(!/url\(/.test(v)) v=getComputedStyle(hero).getPropertyValue('--bl-hair-photo')||'';
+    if(!/url\(/.test(v)) v=getComputedStyle(hero).getPropertyValue('--hero-project-photo')||'';
+    if(!/url\(/.test(v)) v=getComputedStyle(document.documentElement).getPropertyValue('--hero-project-photo')||'';
     v=v.trim();return /url\(/.test(v)?v:'';
   }
   function layout(){
@@ -1347,13 +1400,14 @@ header .hdr-call:hover::after,#zapis .flow-main:hover::after,.svc-btn:hover::aft
     /* original "cover" geometry of the photo, exactly as the old ::before drew it */
     var s0=Math.max(bw/iw,bh/ih),iwd=iw*s0,ihd=ih*s0;
     var x0=bx+(bw-iwd)*px,y0=by+(bh-ihd)/2,cy=y0+ihd/2;
-    var want=Math.max(60,Math.min(.28*H,240));
-    if(-y0<want){ /* not enough hidden photo above: enlarge a little (max 20%), centred */
-      var ih1=Math.min(Math.max(ihd,2*(cy+want)),ihd*1.2),s1=ih1/ih,iw1=iw*s1;
+    /* Stronger parallax travel: more hidden image above the hero and a shorter travel interval. */
+    var want=Math.max(70,Math.min(.38*H,320));
+    if(-y0<want){ /* reserve extra photo beyond the viewport so movement never exposes an edge */
+      var ih1=Math.min(Math.max(ihd,2*(cy+want)),ihd*1.4),s1=ih1/ih,iw1=iw*s1;
       x0=bx+(bw-iw1)*px;y0=cy-ih1/2;iwd=iw1;ihd=ih1;
     }
     Pd=reduce?0:Math.max(0,Math.min(want,-y0));
-    L=Math.max(1,3*Pd);
+    L=Math.max(1,2*Pd);
     layer.style.setProperty('--pd',Pd+'px');
     layer.style.backgroundSize=iwd+'px '+ihd+'px';
     layer.style.backgroundPosition=x0+'px '+(y0+Pd)+'px';
