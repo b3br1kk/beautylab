@@ -1446,6 +1446,47 @@ document.addEventListener('DOMContentLoaded',function(){
   }
 }
 </style>
+
+<style id="beautylab-mobile-price-switcher-tight-frame">
+/* Mobile: keep the green frame close to the category labels instead of stretching full-width. */
+@media(max-width:760px){
+  #uslugi .price-switcher{
+    display:grid!important;
+    grid-template-columns:max-content max-content!important;
+    justify-content:center!important;
+    justify-items:center!important;
+    width:max-content!important;
+    max-width:calc(100vw - 32px)!important;
+    margin-left:auto!important;
+    margin-right:auto!important;
+    padding:6px!important;
+    gap:5px!important;
+    box-sizing:border-box!important;
+  }
+  #uslugi .price-switcher .price-switch{
+    width:max-content!important;
+    min-width:0!important;
+    max-width:100%!important;
+    padding:9px 12px!important;
+    min-height:42px!important;
+    white-space:normal!important;
+    box-sizing:border-box!important;
+  }
+  #uslugi .price-switcher .price-switch:nth-child(3){
+    grid-column:1 / -1!important;
+    justify-self:center!important;
+    width:max-content!important;
+    min-width:0!important;
+    max-width:100%!important;
+    padding-left:18px!important;
+    padding-right:18px!important;
+  }
+}
+@media(max-width:340px){
+  #uslugi .price-switcher .price-switch{padding-left:8px!important;padding-right:8px!important;font-size:11px!important;}
+}
+</style>
+
 </head>
 <body>
 <div aria-label="Загрузка сайта" id="site-loader" role="status">
