@@ -1707,6 +1707,289 @@ document.addEventListener('DOMContentLoaded',function(){
 }
 </style>
 
+
+<style id="beautylab-header-animation-refresh-v11">
+/* Header motion refresh: smooth entrance on desktop, tactile menu on mobile. */
+@keyframes blHeaderLogoIn {
+  from { opacity: 0; transform: translate3d(-10px, 0, 0) scale(.975); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0) scale(1); }
+}
+@keyframes blHeaderLinkIn {
+  from { opacity: 0; transform: translate3d(0, -7px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes blHeaderCtaIn {
+  0% { opacity: 0; translate: 8px 0; scale: .97; }
+  70% { opacity: 1; translate: -2px 0; scale: 1.01; }
+  100% { opacity: 1; translate: 0 0; scale: 1; }
+}
+@keyframes blMenuPanelIn {
+  from { opacity: 0; transform: translate3d(0, -9px, 0) scaleY(.97); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0) scaleY(1); }
+}
+@keyframes blMenuRowIn {
+  from { opacity: 0; transform: translate3d(0, 8px, 0); }
+  to   { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes blMenuPulse {
+  0% { box-shadow: 0 0 0 0 rgba(152,160,133,0); }
+  50% { box-shadow: 0 0 0 4px rgba(152,160,133,.20); }
+  100% { box-shadow: 0 0 0 0 rgba(152,160,133,0); }
+}
+
+/* Desktop/tablet header: staggered entrance, moving underline, subtle lift. */
+@media (min-width: 981px) {
+  header .logo { animation: blHeaderLogoIn .62s cubic-bezier(.2,.75,.25,1) both; }
+  header nav#site-nav ul li { animation: blHeaderLinkIn .48s cubic-bezier(.2,.75,.25,1) both; }
+  header nav#site-nav ul li:nth-child(1) { animation-delay: .08s; }
+  header nav#site-nav ul li:nth-child(2) { animation-delay: .14s; }
+  header nav#site-nav ul li:nth-child(3) { animation-delay: .20s; }
+  header nav#site-nav ul li:nth-child(4) { animation-delay: .26s; }
+  header nav#site-nav ul li:nth-child(5) { animation-delay: .32s; }
+  header .hdr-call { animation: blHeaderCtaIn .62s cubic-bezier(.2,.75,.25,1) .34s both; }
+
+  header .logo img { transform-origin: center; transition: transform .3s cubic-bezier(.2,.75,.25,1), filter .3s ease; }
+  header .logo:hover img { transform: translateY(-2px) scale(1.025); filter: drop-shadow(0 5px 9px rgba(31,34,23,.14)); }
+  header nav#site-nav a {
+    position: relative;
+    display: inline-block;
+    border-bottom-color: transparent !important;
+    transition: color .22s ease, transform .22s ease;
+  }
+  header nav#site-nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 3px;
+    height: 2px;
+    border-radius: 99px;
+    background: var(--oak-d, #687258);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform .28s cubic-bezier(.2,.75,.25,1);
+  }
+  header nav#site-nav a:hover,
+  header nav#site-nav a:focus-visible { transform: translateY(-1px); }
+  header nav#site-nav a:hover::after,
+  header nav#site-nav a:focus-visible::after { transform: scaleX(1); }
+  header .hdr-call { transition: transform .24s cubic-bezier(.2,.75,.25,1), box-shadow .24s ease, filter .24s ease; }
+  header .hdr-call:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(31,34,23,.16); filter: saturate(1.07); }
+  header .hdr-call:active { transform: translateY(0) scale(.98); }
+}
+
+/* Mobile navigation: the trigger turns smoothly and menu rows arrive in sequence. */
+.nav-toggle {
+  transform: translateZ(0);
+  transition: background-color .24s ease, border-color .24s ease, color .24s ease,
+              box-shadow .24s ease, transform .2s cubic-bezier(.2,.75,.25,1) !important;
+}
+.nav-toggle .menu-icon {
+  display: inline-grid;
+  place-items: center;
+  min-width: 1.2em;
+  transform-origin: 50% 50%;
+  animation: none !important;
+  transition: transform .3s cubic-bezier(.2,.75,.25,1), color .2s ease !important;
+}
+.nav-toggle[aria-expanded="true"] .menu-icon { transform: rotate(90deg) scale(1.08); }
+.nav-toggle[aria-expanded="false"] .menu-icon { transform: rotate(0) scale(1); }
+.nav-toggle[aria-expanded="true"] {
+  background-color: rgba(152,160,133,.17) !important;
+  border-color: var(--pis-l, #c9cfba) !important;
+  box-shadow: 0 0 0 3px rgba(152,160,133,.12) !important;
+}
+.nav-toggle:active { transform: scale(.965) !important; }
+@media (max-width: 980px) {
+  #site-nav.open {
+    transform-origin: top center;
+    animation: blMenuPanelIn .29s cubic-bezier(.2,.75,.25,1) both !important;
+  }
+  #site-nav.open ul li { animation: blMenuRowIn .34s cubic-bezier(.2,.75,.25,1) both; }
+  #site-nav.open ul li:nth-child(1) { animation-delay: .035s; }
+  #site-nav.open ul li:nth-child(2) { animation-delay: .075s; }
+  #site-nav.open ul li:nth-child(3) { animation-delay: .115s; }
+  #site-nav.open ul li:nth-child(4) { animation-delay: .155s; }
+  #site-nav.open ul li:nth-child(5) { animation-delay: .195s; }
+  #site-nav a { transition: color .2s ease, background-color .2s ease, padding-left .2s ease, transform .2s ease; }
+  #site-nav a:active { color: #fff !important; padding-left: 5px; transform: scale(.99); }
+  #site-nav a:focus-visible { outline: 2px solid rgba(247,247,242,.75); outline-offset: 3px; border-radius: 4px; }
+  header .logo img { transition: transform .25s ease, filter .25s ease; }
+  header .logo:active img { transform: scale(.97); }
+}
+@media (prefers-reduced-motion: reduce) {
+  header .logo, header nav#site-nav ul li, header .hdr-call, #site-nav.open,
+  #site-nav.open ul li, .nav-toggle, .nav-toggle .menu-icon {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+}
+</style>
+
+<style id="beautylab-marinemaro-header-motion">
+/* Header motion tuned to match MarineMaro: staggered entrance, gentle lift, sliding underline. */
+@keyframes blMaroLogoIn {
+  from { opacity: 0; transform: translateY(-9px) scale(.97); filter: blur(4px); }
+  to   { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+}
+@keyframes blMaroLinkIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes blMaroCtaIn {
+  from { opacity: 0; transform: translateX(12px) scale(.97); }
+  to   { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes blMaroMenuPanelIn {
+  from { opacity: .55; transform: translateY(-12px) scale(.985); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes blMaroMenuRowIn {
+  from { opacity: 0; transform: translateX(-9px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@media (min-width: 981px) {
+  header .logo {
+    animation: blMaroLogoIn .72s cubic-bezier(.2,.75,.25,1) both !important;
+    transform-origin: left center;
+  }
+  header nav#site-nav ul li {
+    animation: blMaroLinkIn .58s cubic-bezier(.2,.75,.25,1) both !important;
+  }
+  header nav#site-nav ul li:nth-child(1) { animation-delay: .08s !important; }
+  header nav#site-nav ul li:nth-child(2) { animation-delay: .15s !important; }
+  header nav#site-nav ul li:nth-child(3) { animation-delay: .22s !important; }
+  header nav#site-nav ul li:nth-child(4) { animation-delay: .29s !important; }
+  header nav#site-nav ul li:nth-child(5) { animation-delay: .36s !important; }
+  header .hdr-call {
+    animation: blMaroCtaIn .68s .3s cubic-bezier(.2,.75,.25,1) both !important;
+    transition: transform .24s ease, box-shadow .24s ease, filter .24s ease !important;
+  }
+  header .logo img {
+    transform-origin: center;
+    transition: transform .3s cubic-bezier(.2,.75,.25,1), filter .3s ease !important;
+  }
+  header .logo:hover img {
+    transform: translateY(-2px) scale(1.025);
+    filter: drop-shadow(0 5px 9px rgba(31,34,23,.14));
+  }
+  header nav#site-nav a {
+    position: relative;
+    display: inline-block;
+    border-bottom-color: transparent !important;
+    transition: color .22s ease, transform .22s ease !important;
+  }
+  header nav#site-nav a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 3px;
+    height: 2px;
+    border-radius: 99px;
+    background: var(--pis-l, #c9cfba);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform .28s cubic-bezier(.2,.7,.2,1);
+  }
+  header nav#site-nav a:hover,
+  header nav#site-nav a:focus-visible { color: #fff; transform: translateY(-2px); }
+  header nav#site-nav a:hover::after,
+  header nav#site-nav a:focus-visible::after { transform: scaleX(1); }
+  header .hdr-call:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(31,34,23,.2); filter: saturate(1.05); }
+  header .hdr-call:active { transform: translateY(0) scale(.98); }
+}
+
+/* Mobile/tablet: MarineMaro-style expanding panel and staggered menu rows. */
+@media (max-width: 980px) {
+  header nav#site-nav {
+    display: block !important;
+    max-height: 0;
+    opacity: 0;
+    visibility: hidden;
+    overflow: hidden;
+    transform: translateY(-12px) scale(.985);
+    transform-origin: top center;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    pointer-events: none;
+    animation: none !important;
+    transition: max-height .38s cubic-bezier(.2,.75,.25,1), opacity .22s ease,
+      transform .3s cubic-bezier(.2,.75,.25,1), padding .3s ease,
+      visibility 0s linear .38s;
+  }
+  header nav#site-nav.open {
+    max-height: min(80vh, 520px);
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+    padding-top: 10px !important;
+    padding-bottom: 18px !important;
+    pointer-events: auto;
+    animation: blMaroMenuPanelIn .36s cubic-bezier(.2,.75,.25,1) both !important;
+    transition: max-height .42s cubic-bezier(.2,.75,.25,1), opacity .24s ease,
+      transform .32s cubic-bezier(.2,.75,.25,1), padding .3s ease, visibility 0s;
+  }
+  header nav#site-nav ul li {
+    opacity: 0;
+    transform: translateX(-9px);
+    transition: opacity .22s ease, transform .28s ease;
+  }
+  header nav#site-nav.open ul li {
+    opacity: 1;
+    transform: translateX(0);
+    animation: blMaroMenuRowIn .34s cubic-bezier(.2,.75,.25,1) both !important;
+  }
+  header nav#site-nav.open ul li:nth-child(1) { animation-delay: .03s !important; }
+  header nav#site-nav.open ul li:nth-child(2) { animation-delay: .07s !important; }
+  header nav#site-nav.open ul li:nth-child(3) { animation-delay: .11s !important; }
+  header nav#site-nav.open ul li:nth-child(4) { animation-delay: .15s !important; }
+  header nav#site-nav.open ul li:nth-child(5) { animation-delay: .19s !important; }
+  header nav#site-nav a {
+    transition: color .2s ease, background-color .2s ease, padding-left .2s ease, transform .2s ease !important;
+  }
+  header nav#site-nav a:active { color: #fff !important; padding-left: 10px !important; transform: scale(.99); }
+  header nav#site-nav a.is-active {
+    color: #fff !important;
+    font-weight: 850;
+    background: rgba(255,255,255,.13);
+    border-radius: 9px;
+    padding-left: 10px !important;
+    text-decoration: none;
+  }
+  .nav-toggle {
+    transform: translateZ(0);
+    transition: transform .28s cubic-bezier(.2,.75,.25,1), background .22s ease,
+      border-color .22s ease, box-shadow .22s ease !important;
+  }
+  .nav-toggle .menu-icon {
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.2em;
+    transform-origin: center;
+    transition: transform .28s cubic-bezier(.2,.75,.25,1), opacity .18s ease !important;
+  }
+  .nav-toggle[aria-expanded="true"] {
+    background: rgba(255,255,255,.14) !important;
+    border-color: var(--pis-l, #c9cfba) !important;
+    box-shadow: 0 5px 14px rgba(31,34,23,.15) !important;
+  }
+  .nav-toggle[aria-expanded="true"] .menu-icon { transform: rotate(90deg) scale(1.04); }
+  .nav-toggle[aria-expanded="false"] .menu-icon { transform: rotate(0) scale(1); }
+  .nav-toggle:active { transform: scale(.96) !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  header .logo, header nav#site-nav ul li, header .hdr-call,
+  header nav#site-nav.open, header nav#site-nav.open ul li, .nav-toggle, .nav-toggle .menu-icon {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+</style>
 </head>
 <body>
 <div aria-label="Загрузка сайта" id="site-loader" role="status">
@@ -2068,7 +2351,7 @@ document.addEventListener('DOMContentLoaded',function(){
 <script>
 (function(){
  const toggle=document.querySelector('.nav-toggle'),nav=document.getElementById('site-nav');
- if(toggle&&nav){toggle.addEventListener('click',()=>{const open=nav.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));const icon=toggle.querySelector('.menu-icon');if(icon)icon.textContent=open?'×':'☰'});nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('open');toggle.setAttribute('aria-expanded','false');const icon=toggle.querySelector('.menu-icon');if(icon)icon.textContent='☰'}))}
+ if(toggle&&nav){toggle.addEventListener('click',()=>{const open=nav.classList.toggle('open');toggle.setAttribute('aria-expanded',String(open));const icon=toggle.querySelector('.menu-icon');if(icon)icon.textContent=open?'×':'☰'});nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nav.querySelectorAll('a').forEach(link=>link.classList.remove('is-active'));a.classList.add('is-active');nav.classList.remove('open');toggle.setAttribute('aria-expanded','false');const icon=toggle.querySelector('.menu-icon');if(icon)icon.textContent='☰'}))}
  const bar=document.querySelector('.scroll-progress');let ticking=false;function progress(){const max=document.documentElement.scrollHeight-window.innerHeight;const ratio=max>0?window.scrollY/max:0;if(bar)bar.style.transform='scaleX('+Math.max(0,Math.min(1,ratio))+')';ticking=false}window.addEventListener('scroll',()=>{if(!ticking){window.requestAnimationFrame(progress);ticking=true}},{passive:true});window.addEventListener('resize',progress,{passive:true});progress();
  const floating=document.querySelector('.floating-calc');if(floating)floating.classList.remove('is-hidden');
 })();
