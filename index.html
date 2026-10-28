@@ -2220,8 +2220,10 @@ document.addEventListener('DOMContentLoaded',function(){
       var p=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Yekaterinburg',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date());
       var m=Number(p.find(function(x){return x.type==='hour'}).value)*60+Number(p.find(function(x){return x.type==='minute'}).value);
       var on=m>=open&&m<close;
-      t.textContent=on?'Открыто · до 20:00':'Откроемся в 10:00';
       status.classList.toggle('is-open',on); status.classList.toggle('is-closed',!on);
+      if(m<open) t.textContent='Сейчас закрыто · Откроемся в 10:00';
+      else if(m>=close) t.textContent='Сейчас закрыто · Откроемся завтра в 10:00';
+      else t.textContent='Сейчас открыто · Закроемся в 20:00';
     }catch(_){t.textContent='Ежедневно 10:00–20:00'}
   }
   upd(); setInterval(upd,60000);
@@ -2567,5 +2569,69 @@ document.addEventListener('DOMContentLoaded',function(){
   }
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ensureYandexMap,{once:true});else ensureYandexMap();
 })();
-</script></body>
+</script>
+<style id="beautylab-marinemaro-status-pill-v13">
+/* Opening-hours pill echoes Marinemaro while keeping Beauty Lab's sage palette. */
+.hero .hero-status{
+  display:inline-flex!important;align-items:center!important;gap:9px!important;
+  width:fit-content!important;max-width:100%!important;
+  margin:0 0 22px!important;padding:8px 13px!important;
+  border:1px solid rgba(247,247,242,.40)!important;border-radius:999px!important;
+  background:rgba(247,247,242,.115)!important;color:#f7f7f2!important;
+  font-size:.81rem!important;font-weight:750!important;line-height:1.35!important;
+  letter-spacing:.015em!important;white-space:normal!important;
+  box-shadow:0 4px 18px rgba(31,34,23,.06)!important;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+}
+.hero .hero-status .eyebrow-dot{
+  display:block!important;width:7px!important;height:7px!important;min-width:7px!important;
+  margin:0!important;padding:0!important;border:0!important;border-radius:50%!important;
+  background:#d9f4c1!important;box-shadow:0 0 0 3px rgba(217,244,193,.17)!important;
+}
+.hero .hero-status.is-closed .eyebrow-dot{
+  background:#ffe2bc!important;box-shadow:0 0 0 3px rgba(255,226,188,.17)!important;
+}
+@media(max-width:640px){
+  .hero .hero-status{font-size:.73rem!important;letter-spacing:0!important;padding:7px 11px!important;margin-bottom:18px!important;gap:8px!important}
+}
+@media(prefers-reduced-motion:reduce){.hero .hero-status{backdrop-filter:none;-webkit-backdrop-filter:none}}
+</style>
+
+
+<style id="beautylab-banner-marine-style-v14">
+/* Match the top demo plaque to MarineMaro's soft blush-gradient banner. */
+.demo-ribbon.demo-ribbon-top {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:0 !important;
+  padding:7px 16px !important;
+  position:relative;
+  z-index:41;
+  text-align:center;
+  background:linear-gradient(100deg,#f8eeee 0%,#e9d5d5 48%,#f8eeee 100%) !important;
+  background-size:200% 100%;
+  color:#60494c !important;
+  border-bottom:1px solid rgba(58,44,46,.10);
+  font:650 .76rem/1.35 system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif !important;
+  letter-spacing:.025em !important;
+  animation:beautylabDemoBannerShimmer 12s ease-in-out infinite alternate;
+}
+@keyframes beautylabDemoBannerShimmer {
+  from { background-position:0% 50%; }
+  to { background-position:100% 50%; }
+}
+@media(max-width:760px) {
+  .demo-ribbon.demo-ribbon-top {
+    padding:7px 12px !important;
+    font-size:.68rem !important;
+    letter-spacing:0 !important;
+  }
+}
+@media(prefers-reduced-motion:reduce) {
+  .demo-ribbon.demo-ribbon-top { animation:none !important; }
+}
+</style>
+
+</body>
 </html>
